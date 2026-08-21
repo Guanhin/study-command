@@ -1541,10 +1541,8 @@ body.world-landscape .command-layout {
   position: relative;
   min-height: calc(100dvh - clamp(56px, 8vw, 120px));
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 620px);
-  grid-template-areas:
-    "focus focus"
-    ". dock";
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "focus";
   align-content: center;
   gap: clamp(14px, 2.4vw, 28px);
   margin: 0 0 clamp(28px, 5vw, 64px);
@@ -1591,7 +1589,8 @@ body.world-landscape .focus-stage {
     "meta timer"
     "title timer"
     "reason timer"
-    "guide timer";
+    "guide timer"
+    "dock timer";
   align-content: center;
   column-gap: clamp(26px, 5vw, 92px);
   row-gap: 14px;
@@ -1639,11 +1638,12 @@ body.world-landscape .focus-stage h3 {
 
 body.world-landscape .focus-timer-stack {
   grid-area: timer;
-  justify-self: end;
+  justify-self: center;
   align-self: end;
-  justify-items: end;
+  justify-items: center;
   width: min(100%, 560px);
   padding-bottom: clamp(18px, 4vh, 56px);
+  transform: translateX(-3vw);
 }
 
 body.world-landscape .focus-clock {
@@ -1675,8 +1675,8 @@ body.world-landscape .counter-digit::after {
 body.world-landscape .focus-clock::after {
   content: "";
   position: absolute;
-  left: 4px;
-  right: -140px;
+  left: -16px;
+  right: -16px;
   bottom: -22px;
   height: 22px;
   border-top: 2px solid rgb(255 225 138 / 0.88);
@@ -1779,7 +1779,7 @@ body.world-landscape .focus-actions {
   margin-top: 18px;
   position: relative;
   z-index: 4;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 body.world-landscape .primary-action,
@@ -1842,14 +1842,14 @@ body.world-landscape .today-panel {
 body.world-landscape .scenic-dock {
   grid-area: dock;
   position: static;
-  justify-self: end;
-  align-self: end;
+  justify-self: start;
+  align-self: start;
   z-index: 3;
   display: grid;
   grid-template-columns: minmax(150px, 1.2fr) repeat(2, minmax(112px, 1fr));
   gap: 10px;
   width: min(620px, 100%);
-  margin-top: -70px;
+  margin-top: 18px;
 }
 
 body.world-landscape .focus-streak,
@@ -2786,9 +2786,7 @@ body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack::befor
 @media (max-width: 1180px) {
   body.world-landscape .command-layout {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "focus"
-      "dock";
+    grid-template-areas: "focus";
     min-height: auto;
   }
 
@@ -2800,7 +2798,8 @@ body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack::befor
       "title"
       "reason"
       "timer"
-      "guide";
+      "guide"
+      "dock";
   }
 
   body.world-landscape .focus-timer-stack {
@@ -2808,6 +2807,7 @@ body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack::befor
     justify-items: start;
     width: min(100%, 620px);
     padding-bottom: 0;
+    transform: none;
   }
 
   body.world-landscape .side-stack {
@@ -2823,7 +2823,7 @@ body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack::befor
     position: static;
     justify-self: start;
     width: min(100%, 520px);
-    margin-top: 24px;
+    margin-top: 20px;
   }
 
   body.world-landscape .command-layout::after {
@@ -2858,7 +2858,7 @@ body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack::befor
   }
 
   body.world-landscape .focus-clock::after {
-    right: -80px;
+    right: -16px;
   }
 
   body.world-landscape .focus-stage {
