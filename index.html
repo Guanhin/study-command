@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Study Command turns deadlines into one clear focus block, with a timer, today queue, calendar, local progress, and schedule import." />
+    <meta name="theme-color" content="#143227" />
+    <meta property="og:title" content="Study Command" />
+    <meta property="og:description" content="A calm focus planner for turning deadlines into one next action." />
+    <meta property="og:type" content="website" />
+    <title>Study Command</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="world-landscape">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">SC</div>
+        <div>
+          <h1>Study Command</h1>
+          <p>One next action, then everything else.</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-item active" href="#focus">Focus</a>
+        <a class="nav-item" href="#today">Today</a>
+        <a class="nav-item" href="#calendar">Calendar</a>
+      </nav>
+
+      <section class="sidebar-panel">
+        <strong id="system-status">Ready</strong>
+        <p id="system-copy">Open the page, start one block, then decide the rest.</p>
+      </section>
+
+      <section class="sidebar-panel">
+        <div class="theme-row">
+          <button class="theme-chip active" type="button" data-theme="world">World</button>
+          <button class="theme-chip" type="button" data-theme="starry">Starry</button>
+        </div>
+      </section>
+    </aside>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p id="today-date" class="date-line">Monday, August 17, 2026</p>
+          <h2 id="greeting">Good evening</h2>
+        </div>
+        <div class="topbar-actions">
+          <button id="achievements-toggle" class="achievement-button" type="button" aria-expanded="false" aria-controls="achievements-panel">
+            <span>Achievements</span>
+            <strong id="achievement-count">0 / 1</strong>
+          </button>
+          <div class="time-language-stack">
+            <div id="live-clock" class="live-clock">18:00:00</div>
+            <div class="language-row topbar-language" aria-label="Language">
+              <button class="theme-chip active" type="button" data-language="en">EN</button>
+              <button class="theme-chip" type="button" data-language="zh">中文</button>
+            </div>
+          </div>
+          <section id="achievements-panel" class="achievements-panel" aria-label="Achievements" hidden>
+            <div class="achievements-panel__top">
+              <strong>Achievements</strong>
+              <span id="achievement-summary">0 unlocked</span>
+            </div>
+            <div id="achievements-list" class="achievements-list"></div>
+          </section>
+        </div>
+      </header>
+
+      <section class="command-layout">
+        <section id="focus" class="focus-stage" aria-live="polite">
+          <div class="focus-meta">
+            <span class="label">Next Action</span>
+            <span id="focus-risk" class="risk-pill">High leverage</span>
+          </div>
+
+          <h3 id="focus-title">Choose a task to start.</h3>
+          <p id="focus-reason">Generate a plan or start one action from today's queue.</p>
+
+          <section class="focus-guide" aria-label="Focus guide">
+            <div class="guide-top">
+              <strong>Start here</strong>
+              <span id="guide-progress">0 / 0</span>
+            </div>
+            <div id="focus-guide-list" class="guide-list"></div>
+          </section>
+
+          <section class="focus-loop-card" aria-label="Focus loop status">
+            <span>Focus Loop</span>
+            <strong>One clear block</strong>
+            <p id="session-summary">45 min / 4 steps / one block ready</p>
+          </section>
+
+          <div class="focus-timer-stack">
+            <svg class="focus-orbit" viewBox="0 0 1000 260" role="img" aria-label="Focus progress orbit">
+              <path class="focus-orbit-path" d="M 70 178 C 230 24, 720 24, 930 160"></path>
+              <text id="focus-orbit-star" class="focus-orbit-star" x="70" y="178" text-anchor="middle">✦</text>
+            </svg>
+            <div class="focus-progress" aria-label="Focus progress">
+              <div id="focus-progress-fill" class="focus-progress-fill"></div>
+            </div>
+
+            <div id="focus-clock" class="focus-clock">00:00</div>
+            <p id="focus-quote" class="focus-quote" aria-live="polite"></p>
+
+            <div class="focus-actions">
+              <button id="primary-start" class="primary-action" type="button">Start Focus</button>
+              <button id="pause-focus" class="secondary-action" type="button">Pause</button>
+              <button id="finish-focus" class="secondary-action" type="button">Finish</button>
+              <button id="quit-focus" class="secondary-action quiet-action" type="button">Quit</button>
+            </div>
+          </div>
+        </section>
+
+        <nav class="scenic-dock" aria-label="Study controls">
+          <span id="focus-streak" class="focus-streak">Focus Streak: 0 days</span>
+          <a href="#today">Today</a>
+          <a href="#calendar">Calendar</a>
+          <div class="soundscape-control" aria-label="Focus sound">
+            <button id="soundscape-toggle" class="secondary-action" type="button" aria-pressed="false">Play sound</button>
+            <div id="soundscape-wheel" class="option-wheel" role="listbox" tabindex="0" aria-label="Focus sound type">
+              <button class="option-wheel__item" type="button" data-value="waves" role="option" aria-selected="true">Ocean Waves</button>
+              <button class="option-wheel__item" type="button" data-value="soft-piano" role="option" aria-selected="false">Soft Piano</button>
+              <button class="option-wheel__item" type="button" data-value="lofi-synth" role="option" aria-selected="false">Lo-fi Synth</button>
+              <button class="option-wheel__item" type="button" data-value="deep-space" role="option" aria-selected="false">Deep Space</button>
+              <button class="option-wheel__item" type="button" data-value="starry-pad" role="option" aria-selected="false">Starry Ambient</button>
+            </div>
+            <select id="soundscape-select" class="soundscape-native-select" aria-hidden="true" tabindex="-1">
+              <option value="waves">Ocean Waves</option>
+              <option value="soft-piano">Soft Piano</option>
+              <option value="lofi-synth">Lo-fi Synth</option>
+              <option value="deep-space">Deep Space</option>
+              <option value="starry-pad">Starry Ambient</option>
+            </select>
+            <label class="volume-control" for="soundscape-volume">
+              <span>Volume</span>
+              <input id="soundscape-volume" type="range" min="0" max="0.12" step="0.01" value="0.03" aria-label="Sound volume" />
+            </label>
+          </div>
+        </nav>
+
+        <section class="side-stack">
+          <article class="panel urgent-panel">
+            <div class="panel-top">
+              <div>
+                <h3 id="urgent-title">No action selected.</h3>
+              </div>
+              <strong id="urgent-days">5 days</strong>
+            </div>
+            <p id="urgent-copy">Today matters because the test is close enough to become real.</p>
+          </article>
+
+          <article class="panel compact-queue-panel">
+            <div class="panel-top">
+              <div>
+                <span class="label">Up Next</span>
+                <h3>Compact Queue</h3>
+              </div>
+              <strong id="compact-completion">0 / 0</strong>
+            </div>
+            <div id="compact-queue" class="compact-queue"></div>
+          </article>
+
+          <article class="panel session-panel">
+            <div class="panel-top">
+              <div>
+                <span class="label">Session Rule</span>
+                <h3>One block only</h3>
+              </div>
+              <strong>45 min</strong>
+            </div>
+            <p>No multitasking. Finish the smallest visible version first.</p>
+          </article>
+        </section>
+      </section>
+
+      <section class="work-grid">
+        <article id="today" class="panel today-panel">
+          <div class="panel-top">
+            <div>
+              <span class="label">Today</span>
+              <h3>Action Queue</h3>
+            </div>
+            <span id="completion-text" class="completion-text">0 / 0 done</span>
+          </div>
+
+          <div class="capacity-meter" aria-label="Today capacity">
+            <div class="capacity-meter__top">
+              <span id="capacity-label">Capacity</span>
+              <strong id="capacity-text">0 / 135 min</strong>
+            </div>
+            <div class="capacity-meter__track" aria-hidden="true">
+              <div id="capacity-fill"></div>
+            </div>
+          </div>
+
+          <div id="task-list" class="task-list"></div>
+
+          <form id="quick-add-form" class="quick-add" autocomplete="off">
+            <input id="task-title-input" type="text" placeholder="Specific action" required />
+            <select id="task-type-input" aria-label="Item type">
+              <option value="action">Action</option>
+              <option value="event">Event</option>
+              <option value="deadline">Deadline</option>
+            </select>
+            <input id="task-minutes-input" type="number" min="5" max="180" step="5" value="45" aria-label="Minutes" />
+            <select id="task-priority-input" aria-label="Priority">
+              <option value="P2">P2 Important</option>
+              <option value="P1">P1 Urgent</option>
+              <option value="P3">P3 Maintain</option>
+            </select>
+            <input id="task-deadline-input" type="date" aria-label="Deadline" />
+            <input id="task-reason-input" type="text" placeholder="Why today?" />
+            <button class="secondary-action" type="submit">Add Action</button>
+          </form>
+
+          <div class="button-row">
+            <button id="plan-action" class="primary-action" type="button">Generate Today Plan</button>
+            <button id="recommend-action" class="secondary-action" type="button">Recommend One</button>
+            <button id="sample-action" class="secondary-action" type="button">Load Sample</button>
+            <a id="import-shortcut" class="secondary-action import-action" href="#schedule-input">Import Schedule</a>
+          </div>
+          <p class="planner-rule-note">Offline planner: due date + priority + 135 min daily cap + one long-term block.</p>
+          <div class="data-actions" aria-label="Data controls">
+            <button id="export-data" class="text-action" type="button">Export Data</button>
+            <button id="reset-data" class="text-action danger-text-action" type="button">Reset</button>
+          </div>
+        </article>
+
+        <article id="calendar" class="panel calendar-panel">
+          <div class="panel-top">
+            <div>
+              <h3 id="calendar-title">August 2026</h3>
+            </div>
+            <div class="calendar-controls">
+              <button id="prev-month" class="secondary-action small icon-action" type="button" aria-label="Previous month">‹</button>
+              <button id="select-today" class="secondary-action small" type="button">Today</button>
+              <button id="next-month" class="secondary-action small icon-action" type="button" aria-label="Next month">›</button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div id="calendar-days" class="calendar-days"></div>
+          <div id="selected-day-events" class="event-list"></div>
+        </article>
+
+        <details id="schedule-input" class="panel import-panel">
+          <summary>Schedule Input</summary>
+          <p>Paste CSV text or import CSV, TXT, or ICS schedules. CSV columns: type,date,title,start,end,minutes,priority,reason,step1,step2,step3,step4. Type can be action, event, or deadline; older files without type stay as actions.</p>
+          <p class="prompt-note">To ask AI for import-ready text, use: “Turn my plan into CSV. Use columns type,date,title,start,end,minutes,priority,reason,step1,step2,step3,step4. Use action for work, event for reminders, deadline for due dates. Put each small step in step1-step4, and leave steps blank for events.”</p>
+          <p id="privacy-note" class="privacy-note">Your tasks, imported schedules, and focus stats stay in this browser's local storage unless you export or reset them.</p>
+          <textarea id="schedule-paste-input" class="schedule-paste-input" rows="7" placeholder="type,date,title,start,end,minutes,priority,reason,step1,step2,step3,step4"></textarea>
+          <div class="button-row paste-actions">
+            <button id="import-pasted-plan" class="primary-action" type="button">Import Pasted Plan</button>
+            <button id="clear-pasted-plan" class="secondary-action" type="button">Clear</button>
+          </div>
+          <input id="schedule-file-input" type="file" multiple accept=".txt,.csv,.ics" />
+        </details>
+      </section>
+    </main>
+
+    <div id="app-toast" class="app-toast" role="status" aria-live="polite"></div>
+    <div id="achievement-toast" class="achievement-toast" role="status" aria-live="polite" hidden>
+      <div class="achievement-toast__icon">A</div>
+      <div>
+        <span>Achievement Get!</span>
+        <strong id="achievement-title">Study Hobbyist</strong>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

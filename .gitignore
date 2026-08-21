@@ -1,0 +1,7 @@
+.agents/
+.openai/
+dist/
+docs/
+study-command-site.tar.gz
+skills-lock.json
+AGENTS.md
