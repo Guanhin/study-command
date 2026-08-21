@@ -86,6 +86,33 @@
             <div id="focus-guide-list" class="guide-list"></div>
           </section>
 
+          <nav class="scenic-dock" aria-label="Study controls">
+            <span id="focus-streak" class="focus-streak">Focus Streak: 0 days</span>
+            <a href="#today">Today</a>
+            <a href="#calendar">Calendar</a>
+            <div class="soundscape-control" aria-label="Focus sound">
+              <button id="soundscape-toggle" class="secondary-action" type="button" aria-pressed="false">Play sound</button>
+              <div id="soundscape-wheel" class="option-wheel" role="listbox" tabindex="0" aria-label="Focus sound type">
+                <button class="option-wheel__item" type="button" data-value="waves" role="option" aria-selected="true">Ocean Waves</button>
+                <button class="option-wheel__item" type="button" data-value="soft-piano" role="option" aria-selected="false">Soft Piano</button>
+                <button class="option-wheel__item" type="button" data-value="lofi-synth" role="option" aria-selected="false">Lo-fi Synth</button>
+                <button class="option-wheel__item" type="button" data-value="deep-space" role="option" aria-selected="false">Deep Space</button>
+                <button class="option-wheel__item" type="button" data-value="starry-pad" role="option" aria-selected="false">Starry Ambient</button>
+              </div>
+              <select id="soundscape-select" class="soundscape-native-select" aria-hidden="true" tabindex="-1">
+                <option value="waves">Ocean Waves</option>
+                <option value="soft-piano">Soft Piano</option>
+                <option value="lofi-synth">Lo-fi Synth</option>
+                <option value="deep-space">Deep Space</option>
+                <option value="starry-pad">Starry Ambient</option>
+              </select>
+              <label class="volume-control" for="soundscape-volume">
+                <span>Volume</span>
+                <input id="soundscape-volume" type="range" min="0" max="0.12" step="0.01" value="0.03" aria-label="Sound volume" />
+              </label>
+            </div>
+          </nav>
+
           <section class="focus-loop-card" aria-label="Focus loop status">
             <span>Focus Loop</span>
             <strong>One clear block</strong>
@@ -112,33 +139,6 @@
             </div>
           </div>
         </section>
-
-        <nav class="scenic-dock" aria-label="Study controls">
-          <span id="focus-streak" class="focus-streak">Focus Streak: 0 days</span>
-          <a href="#today">Today</a>
-          <a href="#calendar">Calendar</a>
-          <div class="soundscape-control" aria-label="Focus sound">
-            <button id="soundscape-toggle" class="secondary-action" type="button" aria-pressed="false">Play sound</button>
-            <div id="soundscape-wheel" class="option-wheel" role="listbox" tabindex="0" aria-label="Focus sound type">
-              <button class="option-wheel__item" type="button" data-value="waves" role="option" aria-selected="true">Ocean Waves</button>
-              <button class="option-wheel__item" type="button" data-value="soft-piano" role="option" aria-selected="false">Soft Piano</button>
-              <button class="option-wheel__item" type="button" data-value="lofi-synth" role="option" aria-selected="false">Lo-fi Synth</button>
-              <button class="option-wheel__item" type="button" data-value="deep-space" role="option" aria-selected="false">Deep Space</button>
-              <button class="option-wheel__item" type="button" data-value="starry-pad" role="option" aria-selected="false">Starry Ambient</button>
-            </div>
-            <select id="soundscape-select" class="soundscape-native-select" aria-hidden="true" tabindex="-1">
-              <option value="waves">Ocean Waves</option>
-              <option value="soft-piano">Soft Piano</option>
-              <option value="lofi-synth">Lo-fi Synth</option>
-              <option value="deep-space">Deep Space</option>
-              <option value="starry-pad">Starry Ambient</option>
-            </select>
-            <label class="volume-control" for="soundscape-volume">
-              <span>Volume</span>
-              <input id="soundscape-volume" type="range" min="0" max="0.12" step="0.01" value="0.03" aria-label="Sound volume" />
-            </label>
-          </div>
-        </nav>
 
         <section class="side-stack">
           <article class="panel urgent-panel">

@@ -2448,9 +2448,7 @@ body.world-landscape[data-theme="starry"] .focus-quote {
 body.world-landscape[data-theme="starry"] .command-layout {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-areas:
-    "focus"
-    "dock";
+  grid-template-areas: "focus";
   gap: clamp(14px, 2vw, 28px);
   align-items: stretch;
   min-height: calc(100dvh - 34px);
@@ -2468,7 +2466,8 @@ body.world-landscape[data-theme="starry"] .focus-stage {
     "meta clock"
     "title clock"
     "reason clock"
-    "guide clock";
+    "guide clock"
+    "dock clock";
   column-gap: clamp(22px, 4vw, 70px);
   align-content: center;
   padding: clamp(24px, 3vw, 44px) clamp(20px, 3vw, 38px);
@@ -2710,10 +2709,10 @@ body.world-landscape[data-theme="starry"] .theme-chip.active {
 body.world-landscape[data-theme="starry"] .scenic-dock {
   grid-area: dock;
   position: static;
-  width: fit-content;
-  max-width: calc(100vw - 48px);
+  width: min(100%, 560px);
+  max-width: none;
   min-height: 70px;
-  margin: -88px auto 88px 0;
+  margin: 18px 0 0;
   padding: 14px;
   display: grid;
   grid-template-columns: minmax(180px, auto) repeat(2, minmax(132px, 164px));
