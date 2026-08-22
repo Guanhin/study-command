@@ -3109,3 +3109,326 @@ body.world-landscape[data-theme="starry"].focus-active .achievements-panel,
 body.world-landscape[data-theme="starry"].focus-active .scenic-dock {
   display: none !important;
 }
+
+@media (max-width: 1180px) {
+  body.world-landscape .focus-stage {
+    row-gap: 16px;
+  }
+
+  body.world-landscape .focus-timer-stack,
+  body.world-landscape[data-theme="starry"] .focus-timer-stack {
+    grid-area: timer;
+    justify-self: start;
+    justify-items: start;
+    width: min(100%, 680px);
+  }
+
+  body.world-landscape[data-theme="starry"] .focus-stage {
+    grid-template-areas:
+      "meta"
+      "title"
+      "reason"
+      "timer"
+      "guide"
+      "dock";
+  }
+
+  body.world-landscape .focus-clock,
+  body.world-landscape[data-theme="starry"] .focus-clock {
+    font-size: clamp(62px, 12vw, 118px);
+  }
+
+  body.world-landscape .focus-actions,
+  body.world-landscape[data-theme="starry"] .focus-actions {
+    justify-content: flex-start;
+  }
+
+  body.world-landscape[data-theme="starry"] .focus-orbit {
+    display: none;
+  }
+
+  body.world-landscape[data-theme="starry"] .scenic-dock {
+    justify-self: start;
+    justify-content: stretch;
+    width: min(100%, 560px);
+    margin-left: 0;
+  }
+
+  body.world-landscape[data-theme="starry"] .soundscape-control {
+    justify-self: stretch;
+    margin-left: 0;
+  }
+
+  body.world-landscape.focus-active .focus-timer-stack,
+  body.world-landscape[data-theme="starry"].focus-active .focus-timer-stack {
+    grid-area: clock;
+    justify-self: center;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 900px) {
+  body.world-landscape.focus-active .focus-stage,
+  body.world-landscape[data-theme="starry"].focus-active .focus-stage {
+    padding: clamp(20px, 4vw, 32px);
+  }
+
+  body.world-landscape.focus-active .focus-clock,
+  body.world-landscape[data-theme="starry"].focus-active .focus-clock {
+    font-size: clamp(58px, 14vw, 108px);
+  }
+
+  body.world-landscape.focus-active .focus-actions,
+  body.world-landscape[data-theme="starry"].focus-active .focus-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 820px) {
+  body.world-landscape .sidebar {
+    position: static;
+    width: auto;
+    min-height: 0;
+    padding: 18px 20px 8px;
+  }
+
+  body.world-landscape .app-shell {
+    padding: 14px 20px 24px;
+  }
+
+  body.world-landscape .topbar,
+  body.world-landscape[data-theme="world"] .topbar {
+    position: static;
+    top: auto;
+    right: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  body.world-landscape .topbar h2 {
+    font-size: clamp(24px, 8vw, 32px);
+  }
+
+  body.world-landscape .topbar-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  body.world-landscape .achievement-button {
+    min-width: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  body.world-landscape .time-language-stack {
+    justify-items: end;
+  }
+
+  body.world-landscape .live-clock {
+    min-width: 128px;
+    padding: 10px 12px;
+    font-size: clamp(17px, 5vw, 21px);
+  }
+
+  body.world-landscape .command-layout,
+  body.world-landscape[data-theme="starry"] .command-layout {
+    min-height: auto;
+    padding-top: 0;
+    margin-bottom: 28px;
+  }
+
+  body.world-landscape .focus-stage,
+  body.world-landscape[data-theme="starry"] .focus-stage {
+    min-height: auto;
+    padding-bottom: 18px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.world-landscape .focus-stage h3,
+  body.world-landscape[data-theme="starry"] #focus-title {
+    max-width: 100%;
+    margin: 12px 0;
+    font-size: clamp(32px, 10vw, 52px);
+    line-height: 1.05;
+  }
+
+  body.world-landscape .focus-stage p,
+  body.world-landscape[data-theme="starry"] #focus-reason {
+    font-size: clamp(15px, 4vw, 18px);
+  }
+
+  body.world-landscape .focus-guide,
+  body.world-landscape[data-theme="starry"] .focus-guide {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.world-landscape .focus-timer-stack,
+  body.world-landscape[data-theme="starry"] .focus-timer-stack {
+    width: 100%;
+  }
+
+  body.world-landscape .focus-clock,
+  body.world-landscape[data-theme="starry"] .focus-clock {
+    max-width: 100%;
+    font-size: clamp(54px, 17vw, 92px);
+  }
+
+  body.world-landscape .focus-actions,
+  body.world-landscape[data-theme="starry"] .focus-actions {
+    width: 100%;
+    gap: 8px;
+  }
+
+  body.world-landscape .primary-action,
+  body.world-landscape .secondary-action {
+    min-width: min(132px, 100%);
+  }
+
+  body.world-landscape .scenic-dock,
+  body.world-landscape[data-theme="starry"] .scenic-dock {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  body.world-landscape .soundscape-control,
+  body.world-landscape[data-theme="starry"] .soundscape-control {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.world-landscape .option-wheel {
+    max-width: none;
+    height: 78px;
+  }
+
+  body.world-landscape .volume-control {
+    width: 100%;
+  }
+
+  body.world-landscape .work-grid {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  body.world-landscape .sidebar {
+    padding-inline: 14px;
+  }
+
+  body.world-landscape .app-shell {
+    padding-inline: 14px;
+  }
+
+  body.world-landscape .topbar-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.world-landscape .time-language-stack,
+  body.world-landscape .topbar-language {
+    justify-items: start;
+    justify-content: start;
+  }
+
+  body.world-landscape .live-clock {
+    width: fit-content;
+  }
+
+  body.world-landscape .focus-meta,
+  body.world-landscape .guide-top {
+    gap: 8px;
+  }
+
+  body.world-landscape .focus-stage h3,
+  body.world-landscape[data-theme="starry"] #focus-title {
+    font-size: clamp(28px, 12vw, 42px);
+  }
+
+  body.world-landscape .focus-clock,
+  body.world-landscape[data-theme="starry"] .focus-clock,
+  body.world-landscape.focus-active .focus-clock,
+  body.world-landscape[data-theme="starry"].focus-active .focus-clock {
+    font-size: clamp(44px, 16vw, 76px);
+  }
+
+  body.world-landscape .counter-digit {
+    width: 1.1em;
+  }
+
+  body.world-landscape .focus-actions,
+  body.world-landscape[data-theme="starry"] .focus-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.world-landscape .focus-actions .primary-action {
+    grid-column: 1 / -1;
+  }
+
+  body.world-landscape .focus-actions .primary-action,
+  body.world-landscape .focus-actions .secondary-action {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 10px;
+  }
+
+  body.world-landscape .scenic-dock,
+  body.world-landscape[data-theme="starry"] .scenic-dock {
+    grid-template-columns: 1fr;
+  }
+
+  body.world-landscape .focus-streak {
+    grid-column: auto;
+  }
+
+  body.world-landscape .guide-step {
+    grid-template-columns: 32px 20px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  body.world-landscape.focus-active .focus-stage,
+  body.world-landscape[data-theme="starry"].focus-active .focus-stage {
+    padding: 18px 14px;
+  }
+
+  body.world-landscape.focus-active .focus-actions,
+  body.world-landscape[data-theme="starry"].focus-active .focus-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.world-landscape.focus-active .focus-actions .primary-action,
+  body.world-landscape[data-theme="starry"].focus-active .focus-actions .primary-action {
+    display: none;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 821px) {
+  body.world-landscape .command-layout {
+    align-content: start;
+    padding-top: 68px;
+  }
+
+  body.world-landscape .focus-stage {
+    min-height: auto;
+  }
+
+  body.world-landscape .focus-stage h3 {
+    font-size: clamp(32px, 3.4vw, 56px);
+  }
+
+  body.world-landscape .focus-clock {
+    font-size: clamp(58px, 6.2vw, 104px);
+  }
+}
