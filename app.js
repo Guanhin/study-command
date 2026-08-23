@@ -422,6 +422,7 @@ let activeActionId = null;
 let remainingSeconds = 0;
 let focusRunning = false;
 let focusInterval = null;
+let focusEndsAt = null;
 let currentFocusQuote = "";
 let guideState = {};
 let toastTimer = null;
@@ -783,8 +784,10 @@ function checkAchievements({ announce = true } = {}) {
   renderAchievements();
 }
 
-function addFocusSecond() {
-  stats.totalFocusSeconds = (stats.totalFocusSeconds || 0) + 1;
+function addFocusSeconds(seconds = 1) {
+  const safeSeconds = Math.max(0, Math.floor(seconds));
+  if (!safeSeconds) return;
+  stats.totalFocusSeconds = (stats.totalFocusSeconds || 0) + safeSeconds;
   saveStats();
   checkAchievements();
 }
@@ -1674,6 +1677,7 @@ function startFocus(actionId) {
   activeActionId = action.id;
   remainingSeconds = action.minutes * 60;
   focusRunning = true;
+  focusEndsAt = Date.now() + remainingSeconds * 1000;
   currentFocusQuote = chooseFocusQuote();
   closeAchievementsPanel();
   document.querySelector("#pause-focus").textContent = t("pause");
@@ -1692,12 +1696,24 @@ function startFocus(actionId) {
   focusInterval = setInterval(() => tickFocus({ trackTime: true }), 1000);
 }
 
+function secondsUntil(timestamp, now = Date.now()) {
+  if (!timestamp) return remainingSeconds;
+  return Math.max(0, Math.ceil((timestamp - now) / 1000));
+}
+
+function syncRunningFocusTime(now = Date.now()) {
+  if (!focusRunning || !activeActionId) return;
+  if (!focusEndsAt) focusEndsAt = now + remainingSeconds * 1000;
+
+  const nextRemaining = secondsUntil(focusEndsAt, now);
+  const elapsedSeconds = Math.max(0, remainingSeconds - nextRemaining);
+  if (elapsedSeconds) addFocusSeconds(elapsedSeconds);
+  remainingSeconds = nextRemaining;
+}
+
 function tickFocus({ trackTime = false } = {}) {
   const action = actions.find((item) => item.id === activeActionId);
-  if (focusRunning && remainingSeconds > 0 && trackTime) {
-    remainingSeconds -= 1;
-    addFocusSecond();
-  }
+  if (trackTime) syncRunningFocusTime();
   setClockDisplay(formatRemaining(remainingSeconds));
   updateFocusProgress(action);
 
@@ -1715,6 +1731,7 @@ function formatRemaining(seconds) {
 
 function finishActive({ automatic = false } = {}) {
   if (!activeActionId) return;
+  syncRunningFocusTime();
   const doneAction = actions.find((action) => action.id === activeActionId);
   stats.focusBlocksCompleted = (stats.focusBlocksCompleted || 0) + 1;
   saveStats();
@@ -1726,6 +1743,7 @@ function finishActive({ automatic = false } = {}) {
   } : action));
   activeActionId = null;
   focusRunning = false;
+  focusEndsAt = null;
   closeAchievementsPanel();
   document.body.classList.remove("focus-active");
   clearInterval(focusInterval);
@@ -1875,6 +1893,7 @@ function quitFocus() {
   activeActionId = null;
   remainingSeconds = 0;
   focusRunning = false;
+  focusEndsAt = null;
   clearInterval(focusInterval);
   closeAchievementsPanel();
   document.body.classList.remove("focus-active");
@@ -1884,6 +1903,12 @@ function quitFocus() {
 
 function wireEvents() {
   wireSoundscapeWheel();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) tickFocus({ trackTime: true });
+  });
+  window.addEventListener("focus", () => tickFocus({ trackTime: true }));
+  window.addEventListener("pageshow", () => tickFocus({ trackTime: true }));
+
   document.addEventListener("click", (event) => {
     const button = event.target.closest("button");
     if (!button || button.disabled) return;
@@ -1934,8 +1959,16 @@ function wireEvents() {
   });
   document.querySelector("#pause-focus").addEventListener("click", () => {
     if (!activeActionId) return;
-    focusRunning = !focusRunning;
+    if (focusRunning) {
+      syncRunningFocusTime();
+      focusRunning = false;
+      focusEndsAt = null;
+    } else {
+      focusRunning = true;
+      focusEndsAt = Date.now() + remainingSeconds * 1000;
+    }
     document.querySelector("#pause-focus").textContent = focusRunning ? t("pause") : t("resume");
+    tickFocus();
   });
   document.querySelector("#finish-focus").addEventListener("click", finishActive);
   document.querySelector("#quit-focus").addEventListener("click", quitFocus);
@@ -1968,6 +2001,7 @@ function wireEvents() {
       activeActionId = task.dataset.id;
       remainingSeconds = (actions.find((action) => action.id === activeActionId)?.minutes || 0) * 60;
       focusRunning = false;
+      focusEndsAt = null;
       renderFocus();
       tickFocus();
       pulseElement(task);
@@ -2006,6 +2040,7 @@ function wireEvents() {
     activeActionId = task.dataset.id;
     remainingSeconds = (actions.find((action) => action.id === activeActionId)?.minutes || 0) * 60;
     focusRunning = false;
+    focusEndsAt = null;
     renderFocus();
     tickFocus();
     pulseElement(task);
@@ -2083,6 +2118,7 @@ function wireEvents() {
     activeActionId = null;
     remainingSeconds = 0;
     focusRunning = false;
+    focusEndsAt = null;
     clearInterval(focusInterval);
     stopSoundscape();
     document.body.classList.remove("focus-active");
