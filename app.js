@@ -2266,6 +2266,7 @@ function setTheme(theme) {
   localStorage.setItem(storageKeys.theme, safeTheme);
   document.querySelectorAll("[data-theme]").forEach((button) => {
     button.classList.toggle("active", button.dataset.theme === safeTheme);
+    button.setAttribute("aria-pressed", String(button.dataset.theme === safeTheme));
   });
 }
 

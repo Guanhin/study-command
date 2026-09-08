@@ -1923,8 +1923,13 @@ body.world-landscape #import-shortcut:hover {
 
 .soundscape-native-select {
   position: absolute;
+  inset: 0 auto auto 0;
   width: 1px;
+  min-width: 0;
+  max-width: 1px;
   height: 1px;
+  padding: 0;
+  border: 0;
   overflow: hidden;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -2130,6 +2135,10 @@ body.world-landscape .import-panel input[type="file"] {
 .achievement-toast.show {
   opacity: 1;
   transform: translateX(0);
+}
+
+.achievement-toast[hidden] {
+  display: none;
 }
 
 .achievement-toast__icon {
@@ -3193,6 +3202,33 @@ body.world-landscape[data-theme="starry"].focus-active .scenic-dock {
     width: auto;
     min-height: 0;
     padding: 18px 20px 8px;
+    gap: 12px;
+  }
+
+  /* Keep theme controls in flow, above the mobile topbar. */
+  body.world-landscape .sidebar-panel:last-of-type {
+    position: static;
+    margin: 0;
+  }
+
+  body.world-landscape .theme-chip,
+  body.world-landscape .topbar-language .theme-chip {
+    min-height: 44px;
+  }
+
+  body.world-landscape .calendar-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  body.world-landscape .calendar-controls .secondary-action {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  body.world-landscape .work-grid > .panel {
+    min-width: 0;
+    padding: 14px;
   }
 
   body.world-landscape .app-shell {
@@ -3320,6 +3356,7 @@ body.world-landscape[data-theme="starry"].focus-active .scenic-dock {
 
   body.world-landscape .work-grid {
     padding: 14px;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
