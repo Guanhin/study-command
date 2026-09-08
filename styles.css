@@ -102,15 +102,6 @@ button:active {
   }
 }
 
-@keyframes starry-paint-drift {
-  from {
-    transform: scale(1.12) rotate(0deg);
-  }
-  to {
-    transform: scale(1.12) rotate(360deg);
-  }
-}
-
 .sidebar {
   position: fixed;
   inset: 0 auto 0 0;
@@ -2334,25 +2325,20 @@ body.world-landscape[data-theme="starry"] {
   --accent: #e3ad38;
   --accent-strong: #ffc34e;
   --danger: #ffc34e;
-  background:
-    radial-gradient(circle at 52% 34%, rgb(255 195 78 / 0.06), transparent 24%),
-    linear-gradient(90deg, rgb(1 8 20 / 0.62), rgb(1 10 28 / 0.16) 42%, rgb(1 8 20 / 0.54)),
-    linear-gradient(0deg, rgb(0 5 14 / 0.46), transparent 52%),
-    url("assets/starry-focus-bg.png") center / cover fixed no-repeat,
-    #031326;
+  background: #031326;
 }
 
+/* Size the sky to the viewport, not the full scrolling document (iOS). */
 body.world-landscape[data-theme="starry"]::before {
   content: "";
   position: fixed;
-  inset: -12%;
+  inset: 0;
   z-index: 0;
-  opacity: 0.2;
+  opacity: 1;
   pointer-events: none;
-  background: url("assets/starry-focus-bg.png") center / cover no-repeat;
-  transform-origin: center;
-  animation: starry-paint-drift 150s linear infinite;
-  will-change: transform;
+  background: url("assets/starry-sky-portrait.png") center / cover no-repeat;
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 body.world-landscape[data-theme="starry"] .app-shell,
@@ -2377,11 +2363,12 @@ body.world-landscape[data-theme="starry"] .sidebar {
 }
 
 body.world-landscape[data-theme="starry"]::after {
-  background:
-    radial-gradient(ellipse at 52% 30%, transparent 0 18%, rgb(255 195 78 / 0.1) 18.4%, transparent 19.2%),
-    radial-gradient(ellipse at 52% 30%, transparent 0 29%, rgb(255 236 169 / 0.07) 29.4%, transparent 30.2%),
-    linear-gradient(180deg, rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.18) 54%, rgb(0 0 0 / 0.44));
+  background: linear-gradient(180deg, rgb(0 5 14 / 0.12), rgb(0 5 14 / 0.32));
   opacity: 1;
+}
+
+body.world-landscape[data-theme="starry"] .focus-clock::after {
+  content: none;
 }
 
 body.world-landscape[data-theme="starry"] .brand-mark,

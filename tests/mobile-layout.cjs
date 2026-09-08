@@ -36,6 +36,22 @@ const assert = require('node:assert/strict');
         });
         console.log(language, width, theme, JSON.stringify(layout));
         try {
+          if (theme === 'starry') {
+            const sky = await page.evaluate(() => {
+              const before = getComputedStyle(document.body, '::before');
+              return { image: before.backgroundImage, position: before.position, inset: before.inset,
+                transform: before.transform, animation: before.animationName,
+                overlay: getComputedStyle(document.body, '::after').backgroundImage,
+                ring: getComputedStyle(document.querySelector('.focus-clock'), '::after').content };
+            });
+            assert.ok(sky.image.includes('starry-sky-portrait.png'));
+            assert.equal(sky.position, 'fixed');
+            assert.equal(sky.inset, '0px');
+            assert.equal(sky.transform, 'none');
+            assert.equal(sky.animation, 'none');
+            assert.ok(!sky.overlay.includes('radial-gradient'));
+            assert.equal(sky.ring, 'none');
+          }
           assert.ok(layout.scroll <= width + 1, 'Horizontal overflow');
           assert.ok(Math.abs(layout.shellRight - width) <= 1, 'Right-side gap');
           assert.ok(layout.themeClickable, 'Theme switch covered');
