@@ -1163,6 +1163,23 @@ button:active {
   color: var(--muted);
 }
 
+.event-row {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.event-row strong {
+  flex: 1 1 140px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+body.world-landscape .event-row .calendar-start-action {
+  min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .import-row strong,
 .import-row span {
   min-width: 0;

@@ -417,6 +417,7 @@ let stats = {};
 let unlockedAchievements = {};
 let currentLanguage = "en";
 let selectedDate = todayKey();
+let renderedDay = todayKey();
 let visibleMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let activeActionId = null;
 let remainingSeconds = 0;
@@ -1053,6 +1054,15 @@ function wireSpecularButtons() {
 
 function updateClock() {
   const now = new Date();
+  const currentDay = todayKey(now);
+  if (currentDay !== renderedDay) {
+    if (selectedDate === renderedDay) {
+      selectedDate = currentDay;
+      visibleMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+    renderedDay = currentDay;
+    renderAll();
+  }
   const hour = now.getHours();
   const greeting = hour < 12 ? t("greetings")[0] : hour < 18 ? t("greetings")[1] : t("greetings")[2];
   document.querySelector("#greeting").textContent = greeting;
@@ -1496,6 +1506,7 @@ function renderSelectedDay() {
   const list = document.querySelector("#selected-day-events");
   const dayRows = [
     ...actions.filter((action) => action.day === selectedDate).map((action) => ({
+      action,
       title: action.title,
       meta: actionType(action) === "action" ? (action.completed ? t("metaDone") : t("metaAction")) : t(actionType(action)),
     })),
@@ -1517,6 +1528,15 @@ function renderSelectedDay() {
     div.innerHTML = `<strong></strong><span></span>`;
     div.querySelector("strong").textContent = row.title;
     div.querySelector("span").textContent = row.meta;
+    if (row.action && actionType(row.action) === "action") {
+      const start = document.createElement("button");
+      start.type = "button";
+      start.className = "secondary-action small calendar-start-action";
+      start.dataset.startAction = row.action.id;
+      start.textContent = t(row.action.completed ? "restartFocus" : "startFocus");
+      start.setAttribute("aria-label", `${start.textContent}: ${row.title}`);
+      div.append(start);
+    }
     list.append(div);
   });
 }
@@ -1670,7 +1690,7 @@ function chooseFocusQuote() {
 
 function startFocus(actionId) {
   const action = actions.find((item) => item.id === actionId) || focusCandidate();
-  if (!action) return;
+  if (!action || actionType(action) !== "action") return;
   showToast(t("focusStarted", action.title));
 
   clearInterval(focusInterval);
@@ -2136,6 +2156,11 @@ function wireEvents() {
     }
     commit([...actions, recommendation]);
     showToast(t("recommended"));
+  });
+
+  document.querySelector("#selected-day-events").addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-start-action]");
+    if (button) startFocus(button.dataset.startAction);
   });
 
   document.querySelector("#calendar-days").addEventListener("click", (event) => {
