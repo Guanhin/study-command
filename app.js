@@ -1664,7 +1664,7 @@ function buildPlan() {
       return itemDays !== null && itemDays > 14;
     });
     if (isLongTerm && longTermAlreadyPlanned) continue;
-    if (plannedMinutes + candidate.action.minutes > maxMinutes && selected.length > 0) continue;
+    if (plannedMinutes + candidate.action.minutes > maxMinutes) continue;
 
     selected.push(candidate.action);
     plannedMinutes += candidate.action.minutes;
@@ -1691,6 +1691,7 @@ function chooseFocusQuote() {
 function startFocus(actionId) {
   const action = actions.find((item) => item.id === actionId) || focusCandidate();
   if (!action || actionType(action) !== "action") return;
+  syncRunningFocusTime();
   showToast(t("focusStarted", action.title));
 
   clearInterval(focusInterval);
@@ -1732,6 +1733,7 @@ function syncRunningFocusTime(now = Date.now()) {
 }
 
 function tickFocus({ trackTime = false } = {}) {
+  if (!activeActionId) return;
   const action = actions.find((item) => item.id === activeActionId);
   if (trackTime) syncRunningFocusTime();
   setClockDisplay(formatRemaining(remainingSeconds));
@@ -1756,17 +1758,19 @@ function finishActive({ automatic = false } = {}) {
   stats.focusBlocksCompleted = (stats.focusBlocksCompleted || 0) + 1;
   saveStats();
   checkAchievements();
-  commit(actions.map((action) => action.id === activeActionId ? {
+  const finishedId = activeActionId;
+  activeActionId = null;
+  remainingSeconds = 0;
+  focusRunning = false;
+  focusEndsAt = null;
+  clearInterval(focusInterval);
+  document.body.classList.remove("focus-active");
+  commit(actions.map((action) => action.id === finishedId ? {
     ...action,
     completed: true,
     completedAt: new Date().toISOString(),
   } : action));
-  activeActionId = null;
-  focusRunning = false;
-  focusEndsAt = null;
   closeAchievementsPanel();
-  document.body.classList.remove("focus-active");
-  clearInterval(focusInterval);
   showToast(doneAction ? t("focusFinished", doneAction.title, automatic) : t("focusFinishedFallback"));
 }
 
@@ -1807,10 +1811,13 @@ function parseCsvSchedule(text) {
     if (!row.date || !row.title) return null;
     const customSteps = parseCustomSteps(row);
     const type = ["event", "deadline"].includes((row.type || "action").toLowerCase()) ? row.type.toLowerCase() : "action";
+    const minutes = Number(row.minutes);
     return createAction({
       type,
       title: row.title,
-      minutes: Number(row.minutes) || minutesBetween(row.start, row.end) || 45,
+      minutes: Number.isFinite(minutes) && minutes > 0 ? minutes : minutesBetween(row.start, row.end) || 45,
+      start: row.start || "",
+      end: row.end || "",
       priority: row.priority || "P2",
       deadline: row.date,
       linkedGoal: type === "action" ? row.title : null,
@@ -1910,6 +1917,7 @@ function parseScheduleFile(file, text) {
 }
 
 function quitFocus() {
+  syncRunningFocusTime();
   activeActionId = null;
   remainingSeconds = 0;
   focusRunning = false;
